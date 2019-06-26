@@ -29,7 +29,7 @@ const ReviewApplicationDetails = ({ reviews }) => {
 					<Typography className={classes.heading}>Final Decision</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{reviews.finalDecision ? 'accepted' : 'refused'}</Typography>
+					<Typography className={classes.secondaryHeading}>{!reviews.treated ? '_' : (reviews.finalDecision ? 'accepted' : 'refused')}</Typography>
 				</Grid>
 				{reviews.currentUserReview && <Fragment>
 					<Divider className={classes.divider} />

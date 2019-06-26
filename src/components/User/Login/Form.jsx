@@ -1,7 +1,8 @@
-import { Avatar, Button, Grid, IconButton, InputAdornment, LinearProgress, makeStyles, TextField, Typography, Paper } from '@material-ui/core';
+import { Avatar, Grid, IconButton, InputAdornment, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import { Lock, Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { Mutation } from 'react-apollo';
+import SubmitFormButton from '../../SubmitFromButton';
 import { useFormInputGroup, validate } from '../../utils';
 import { LOG_IN } from '../mutations';
 import yupSchema from './validation';
@@ -14,10 +15,6 @@ const useStyles = makeStyles(theme => ({
 		},
 		marginTop: theme.spacing(10),
 		margin: 'auto'
-	},
-	linearProgress: {
-		borderRadius: '50px 50px 0 0',
-		marginBottom: -4
 	},
 	title: {
 		marginBottom: theme.spacing(3),
@@ -70,7 +67,6 @@ const LoginForm = () => {
 		<Mutation mutation={LOG_IN}>
 			{(login, { loading, error }) => (
 				<div className={classes.root}>
-					{loading && <LinearProgress className={classes.linearProgress} />}
 					<Paper className={classes.paper}>
 						<Avatar className={classes.avatar}>
 							<Lock />
@@ -78,9 +74,6 @@ const LoginForm = () => {
 						<Typography component="h1" variant="h6" className={classes.title}>
 							Login To Continue
 						</Typography>
-						{error && <Typography align="center" variant="h6" color="error" className={classes.title}>
-							Somthing went wrong
-						</Typography>}
 						<form onSubmit={handleSubmit(login)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
 								<Grid item xs={12}>
@@ -92,6 +85,7 @@ const LoginForm = () => {
 										helperText={errors.email}
 										onChange={handleChange}
 										value={values.email}
+										disabled={loading}
 										variant="outlined"
 										fullWidth
 									/>
@@ -106,6 +100,7 @@ const LoginForm = () => {
 										helperText={errors.password}
 										onChange={handleChange}
 										value={values.password}
+										disabled={loading}
 										variant="outlined"
 										fullWidth
 										InputProps={{
@@ -123,7 +118,7 @@ const LoginForm = () => {
 									/>
 								</Grid>
 								<Grid item xs={12}>
-									<Button type="submit" variant="contained" color="primary" fullWidth>log in</Button>
+									<SubmitFormButton loading={loading} error={error} label="log in" loadingLabel="loging in..." />
 								</Grid>
 							</Grid>
 						</form>

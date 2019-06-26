@@ -20,9 +20,9 @@ export const validate = (yupSchema, input) => {
 	}
 };
 
-export const useDynamicArrayForm = defaults => {
-	const [array, setArray] = useState([defaults]);
-
+export const useDynamicArrayForm = (defaults, min = 1, max = 10) => {
+	const [array, setArray] = useState(new Array(min).fill(defaults));
+	
 	const handleElementChange = ({ target: { value, dataset } }) => {
 		if (!dataset.name) {
 			const newArray = array.map((element, index) => {
@@ -40,10 +40,12 @@ export const useDynamicArrayForm = defaults => {
 	};
 
 	const handleAddElement = () => {
+		if(array.length === max) return;
 		setArray([...array, defaults]);
 	};
 
 	const handleRemoveElement = index => () => {
+		if(array.length === min) return;
 		const newArray = array.filter((_, elementIndex) => elementIndex !== index);
 		setArray([...newArray]);
 	};

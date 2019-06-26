@@ -3,9 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { Link } from 'react-router-dom';
-import UserSection from './UserSection';
 import { GET_LOADING } from '../queries';
+import UserSection from './UserSection';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -46,7 +45,7 @@ const Navbar = ({ data: { loading }, toggleSidebar }) => {
 					<IconButton onClick={toggleSidebar} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
 						<MenuIcon />
 					</IconButton>
-					<Typography component={Link} to="/" variant="h6" color="inherit" className={classes.title}>
+					<Typography variant="h6" color="inherit" className={classes.title}>
 						SCMS
 					</Typography>
 					<UserSection />

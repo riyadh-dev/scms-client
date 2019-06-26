@@ -32,33 +32,17 @@ const ApplicationReviewSection = () => {
 			component="nav"
 			subheader={<ListSubheader disableSticky>REVIEW APPLICATIONS</ListSubheader>}
 		>
-			<ListItem button component={Link} to="/application/review/intrenship/list" className={classes.nested}>
-				<ListItemText primary="Intrenship" />
+			<ListItem button component={Link} to="/application/internship/list" className={classes.nested}>
+				<ListItemText primary="Internship" />
 			</ListItem>
-			<ListItem button component={Link} to="/application/review/confrence/list" className={classes.nested}>
+			<ListItem button component={Link} to="/application/confrence/list" className={classes.nested}>
 				<ListItemText primary="Confrence" />
 			</ListItem>
 			<Collapse in={openSubList.showMore} timeout="auto" unmountOnExit>
-				<ListItem button onClick={handleSubListClick('defense')}>
-					<ListItemIcon>
-						{openSubList.defense ? <ExpandLess /> : <ExpandMore />}
-					</ListItemIcon>
-					<ListItemText primary="Defense" />
-				</ListItem>
-				<Collapse in={openSubList.defense} timeout="auto" unmountOnExit>
-					<List component="div" disablePadding>
-						<ListItem button component={Link} to="/application/review/phd-defense/list" className={classes.lev2Nested}>
-							<ListItemText primary="PhD" />
-						</ListItem>
-						<ListItem button component={Link} to="/application/review/habilitation-defence/list" className={classes.lev2Nested}>
-							<ListItemText primary="Habilitation" />
-						</ListItem>
-					</List>
-				</Collapse>
-				<ListItem button component={Link} to="/application/review/confirmation/list" className={classes.nested}>
+				<ListItem button component={Link} to="/application/confirmation/list" className={classes.nested}>
 					<ListItemText primary="Confirmation" />
 				</ListItem>
-				<ListItem button component={Link} to="/application/review/promotion/list" className={classes.nested}>
+				<ListItem button component={Link} to="/application/promotion/list" className={classes.nested}>
 					<ListItemText primary="Promotion" />
 				</ListItem>
 				<ListItem button onClick={handleSubListClick('thesis')}>
@@ -69,24 +53,40 @@ const ApplicationReviewSection = () => {
 				</ListItem>
 				<Collapse in={openSubList.thesis} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItem button component={Link} to="/application/review/thesis/title-change/list" className={classes.lev2Nested}>
+						<ListItem button component={Link} to="/application/thesis-title-change/list" className={classes.lev2Nested}>
 							<ListItemText primary="Title Change" />
 						</ListItem>
-						<ListItem button component={Link} to="/application/review/thesis/add-co-supervisor/list" className={classes.lev2Nested}>
+						<ListItem button component={Link} to="/application/add-thesis-co-supervisor/list" className={classes.lev2Nested}>
 							<ListItemText primary="Add Co-Supervisor" />
 						</ListItem>
 					</List>
 				</Collapse>
-				<ListItem button component={Link} to="/application/review/registration" className={classes.nested}>
+				<ListItem disabled button component={Link} to="/application/registration" className={classes.nested}>
 					<ListItemText primary="Registration" />
 				</ListItem>
-				<ListItem button component={Link} to="/application/review/registration-renewal" className={classes.nested}>
+				<ListItem disabled button component={Link} to="/application/registration-renewal" className={classes.nested}>
 					<ListItemText primary="Registration Renewal" />
 				</ListItem>
-				<ListItem button component={Link} to="/application/review/research-submission/list" className={classes.nested}>
+				<ListItem button onClick={handleSubListClick('defense')}>
+					<ListItemIcon>
+						{openSubList.defense ? <ExpandLess /> : <ExpandMore />}
+					</ListItemIcon>
+					<ListItemText primary="Defense" />
+				</ListItem>
+				<Collapse in={openSubList.defense} timeout="auto" unmountOnExit>
+					<List component="div" disablePadding>
+						<ListItem disabled button component={Link} to="/application/phd-defense/list" className={classes.lev2Nested}>
+							<ListItemText primary="PhD" />
+						</ListItem>
+						<ListItem disabled button component={Link} to="/application/habilitation-defence/list" className={classes.lev2Nested}>
+							<ListItemText primary="Habilitation" />
+						</ListItem>
+					</List>
+				</Collapse>
+				<ListItem disabled button component={Link} to="/application/research-submission/list" className={classes.nested}>
 					<ListItemText primary="Research Sumition" />
 				</ListItem>
-				<ListItem button component={Link} to="/application/review/course-handout/list" className={classes.nested}>
+				<ListItem disabled button component={Link} to="/application/course-handout/list" className={classes.nested}>
 					<ListItemText primary="Course Handout" />
 				</ListItem>
 			</Collapse>
@@ -94,7 +94,7 @@ const ApplicationReviewSection = () => {
 				<ListItemIcon>
 					{openSubList.showMore ? <ExpandLess /> : <ExpandMore />}
 				</ListItemIcon>
-				<ListItemText primary="Show more" primaryTypographyProps={{ color: 'textSecondary' }} />
+				<ListItemText primary={openSubList.showMore ? 'Show less' : 'Show more'} primaryTypographyProps={{ color: 'textSecondary' }} />
 			</ListItem>
 		</List>
 	);

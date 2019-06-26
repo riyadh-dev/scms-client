@@ -1,7 +1,7 @@
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { orderBy } from 'lodash';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -20,20 +20,25 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const ApplicationsListTable = ({ data, currentUserID }) => {
+const ApplicationListByApplicationTypeTable = ({ data, currentUserID }) => {
 	const classes = useStyles();
 
-	const isReviewed = review => review.reviewer._id === currentUserID;
-	const formatedData = data.map(app => ({
-		_id: app._id,
-		name: app.applicant.firstName + ' ' + app.applicant.lastName,
-		accepts: app.accepts,
-		refuses: app.refuses,
-		finalDecision: app.finalDecision,
-		reviewed: Boolean(app.reviews.find(isReviewed))
-	}));
+	const [applications, setApplications] = useState([]);
+	useEffect(() => {
+		const isReviewed = review => review.reviewer._id === currentUserID;
+		setApplications(
+			data.map(app => ({
+				_id: app._id,
+				name: app.applicant.firstName + ' ' + app.applicant.lastName,
+				accepts: app.accepts,
+				refuses: app.refuses,
+				treated: app.treated,
+				finalDecision: app.finalDecision,
+				reviewed: Boolean(app.reviews.find(isReviewed))
+			}))
+		);
+	}, [currentUserID, data]);
 	
-	const [applications, setApplications] = useState(formatedData);
 	const [sortBy, setSortBy] = useState('');
 	const [sortDirection, setSortDirection] = useState('desc');
 	const directionToggle = sortDirection => (
@@ -54,9 +59,9 @@ const ApplicationsListTable = ({ data, currentUserID }) => {
 					<TableRow>
 						<TableCell>
 							<TableSortLabel
-								active={sortBy === 'firstName'}
+								active={sortBy === 'name'}
 								direction={sortDirection}
-								onClick={handleSortBy('firstName')}
+								onClick={handleSortBy('name')}
 							>Name</TableSortLabel>
 						</TableCell>
 						<TableCell>
@@ -72,6 +77,13 @@ const ApplicationsListTable = ({ data, currentUserID }) => {
 								direction={sortDirection}
 								onClick={handleSortBy('refuses')}
 							>Refuses</TableSortLabel>
+						</TableCell>
+						<TableCell>
+							<TableSortLabel
+								active={sortBy === 'treated'}
+								direction={sortDirection}
+								onClick={handleSortBy('treated')}
+							>Treated</TableSortLabel>
 						</TableCell>
 						<TableCell>
 							<TableSortLabel
@@ -91,11 +103,12 @@ const ApplicationsListTable = ({ data, currentUserID }) => {
 				</TableHead>
 				<TableBody>
 					{applications.map(application => (
-						<TableRow key={application._id} hover component={Link} to={`/application/review/confrence/${application._id}`} className={classes.tableRow}>
+						<TableRow key={application._id} hover component={Link} to={`/application/${application._id}`} className={classes.tableRow}>
 							<TableCell>{application.name}</TableCell>
 							<TableCell>{application.accepts}</TableCell>
 							<TableCell>{application.refuses}</TableCell>
-							<TableCell>{application.finalDecision ? 'accepted' : 'refused'}</TableCell>
+							<TableCell>{application.treated ? 'yes' : 'no'}</TableCell>
+							<TableCell>{application.treated ? (application.finalDecision ? 'accepted' : 'refused') : '_'}</TableCell>
 							<TableCell>{application.reviewed ? 'yes' : 'no'}</TableCell>
 						</TableRow>
 					))}
@@ -105,4 +118,4 @@ const ApplicationsListTable = ({ data, currentUserID }) => {
 	);
 };
 
-export default ApplicationsListTable;
+export default ApplicationListByApplicationTypeTable;

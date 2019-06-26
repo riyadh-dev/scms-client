@@ -1,0 +1,30 @@
+{
+	"__schema": {
+		"types": [
+			{
+				"kind": "INTERFACE",
+				"name": "Application",
+				"possibleTypes": [
+					{
+						"name": "ConfrenceApplication"
+					},
+					{
+						"name": "InternshipApplication"
+					},
+					{
+						"name": "ConfirmationApplication"
+					},
+					{
+						"name": "PromotionApplication"
+					},
+					{
+						"name": "AddThesisCoSupervisorApplication"
+					},
+					{
+						"name": "ThesisTitleChangeApplication"
+					}
+				]
+			}
+		]
+	}
+}

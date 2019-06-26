@@ -1,5 +1,6 @@
 import { GET_TOKEN, GET_TOKEN_EXPIRATION } from '../components/User/queries';
 import { GET_THEME } from '../components/Layout/queries';
+import gql from 'graphql-tag';
 
 export default {
 	Mutation: {
@@ -19,8 +20,24 @@ export default {
 			try {
 				const { data: { token } } = await client.query({
 					query: GET_TOKEN,
-					fetchPolicy: 'no-cache',
+					fetchPolicy: 'network-only',
 					variables: values
+				});
+
+				const { data: { activeSCSession } } = await client.query({
+					query: gql`
+						query ActiveSCSession {
+							activeSCSession {
+								_id
+								submissionsStartDate
+								submissionsEndDate
+								mettingDate
+								mettingAgenda
+								canSubmit
+								canSetAgenda
+							}	
+						}
+					`
 				});
 
 				const { iat, exp, ...currentUser } = JSON.parse(atob(token.split('.')[1]));
@@ -28,6 +45,7 @@ export default {
 
 				const data = {
 					currentUser,
+					activeSCSession,
 					token: token,
 					tokenExpiration: exp,
 					authenticated: true
@@ -44,7 +62,7 @@ export default {
 
 		checkTokenExpired: async (_root, _args, { client, cache }) => {
 			const { tokenExpiration } = cache.readQuery({ query: GET_TOKEN_EXPIRATION });
-			if(Math.floor(Date.now()/1000) > tokenExpiration){
+			if (Math.floor(Date.now() / 1000) > tokenExpiration) {
 				client.resetStore();
 				return null;
 			}

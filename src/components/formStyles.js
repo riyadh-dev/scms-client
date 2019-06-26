@@ -33,4 +33,7 @@ export default makeStyles(theme => ({
 		paddingLeft: 12,
 		width: '100%'
 	},
+	fileInput: {
+		display: 'none'
+	}
 }));

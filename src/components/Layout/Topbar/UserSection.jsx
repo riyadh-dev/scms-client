@@ -22,7 +22,7 @@ const UserSection = ({ history }) => {
 
 	const handleLogOut = logout => () => {
 		logout();
-		history.push('/');
+		history.push('/announcement');
 	};
 
 	return (

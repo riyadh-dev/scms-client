@@ -1,7 +1,8 @@
-import { Grid, Button, Paper, TextField, Typography, LinearProgress } from '@material-ui/core';
+import { Grid, Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import useStyles from '../../formStyles';
+import SubmitFormButton from '../../SubmitFromButton';
 import { useFormInputGroup, validate } from '../../utils';
 import { REVIEW_APPLICATION } from '../mutations';
 import validationSchema from './validation';
@@ -23,18 +24,17 @@ const ReviewApplicationForm = ({ applicationID }) => {
 			setErrors(validationRes.errors);
 			return;
 		}
-		const reviewApplicationInput = {
+		const input = {
 			applicationID,
 			...validationRes.validateInput
 		};
-		await reviewApplication({ variables: { reviewApplicationInput } });
+		await reviewApplication({ variables: { input } });
 	};
 
 	return (
 		<Mutation mutation={REVIEW_APPLICATION}>
 			{(reviewApplication, { loading, error }) => (
 				<div className={classes.root2}>
-					{loading && <LinearProgress className={classes.linearProgress} />}
 					<Paper className={classes.paper}>
 						<Typography align="center" variant="h6" className={classes.title}>
 							Application Assessment
@@ -75,7 +75,7 @@ const ReviewApplicationForm = ({ applicationID }) => {
 									/>
 								</Grid>
 								<Grid item xs={12}>
-									<Button type="submit" variant="contained" color="primary" fullWidth>submit</Button>
+									<SubmitFormButton loading={loading} error={error}/>
 								</Grid>
 							</Grid>
 						</form>

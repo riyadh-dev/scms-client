@@ -16,7 +16,7 @@ const commonOverrides = {
 
 const commonProps = {
 	MuiPaper: { elevation: 0 },
-	MuiButtonBase: { disableRipple: true },
+	//	MuiButtonBase: { disableRipple: true },
 	MuiTable: { component: 'div' },
 	MuiTableHead: { component: 'div' },
 	MuiTableBody: { component: 'div' },

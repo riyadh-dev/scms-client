@@ -4,10 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useStyles from '../../detailsStyles';
+import dayjs from 'dayjs';
 
-const ConfrenceApplicationDetails = ({ confrence }) => {
+const ConfrenceApplicationDetails = ({ details }) => {
 	const classes = useStyles();
-	const confrenceDate = (new Date(parseInt(confrence.date))).toDateString();
 	return (
 		<Paper className={classes.root}>
 			<Typography align="center" className={classes.title}>
@@ -18,28 +18,28 @@ const ConfrenceApplicationDetails = ({ confrence }) => {
 					<Typography className={classes.heading}>CONFRENCE NAME</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{confrence.name}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.name}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item xs={12} sm={6}>
 					<Typography className={classes.heading}>CONFRENCE WEBSITE</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{confrence.website}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.website}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item xs={12} sm={6}>
 					<Typography className={classes.heading}>LOCATION</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{confrence.location}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.location}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item xs={12} sm={6}>
 					<Typography className={classes.heading}>CONFRENCE DATE</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{confrenceDate}</Typography>
+					<Typography className={classes.secondaryHeading}>{dayjs(details.confrenceDate).format('MMM DD, YYYY')}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Typography variant="subtitle1" className={classes.subtitle}>
@@ -49,14 +49,14 @@ const ConfrenceApplicationDetails = ({ confrence }) => {
 					<Typography className={classes.heading}>TITLE</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{confrence.communicationPaper.title}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.communicationPaperTitle}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item xs={12} sm={6}>
 					<Typography className={classes.heading}>ABSTRACT</Typography>
 				</Grid>
 				<Grid item xs={12}>
-					<Typography className={classes.secondaryHeading}>{confrence.communicationPaper.abstract}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.communicationPaperAbstract}</Typography>
 				</Grid>
 			</Grid>
 		</Paper>
@@ -64,7 +64,7 @@ const ConfrenceApplicationDetails = ({ confrence }) => {
 };
 
 ConfrenceApplicationDetails.propTypes = {
-	confrence: PropTypes.object.isRequired
+	details: PropTypes.object.isRequired
 };
 
 export default ConfrenceApplicationDetails;

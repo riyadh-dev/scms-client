@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const FacultyMemberApplicationSubmissionSection = () => {
+const FacultyMemberApplicationSubmissionSection = ({ canSubmit }) => {
 	const classes = useStyles();
 	const [openSubList, setOpenSubList] = useState({
 		showMore: false,
@@ -32,33 +32,17 @@ const FacultyMemberApplicationSubmissionSection = () => {
 			component="nav"
 			subheader={<ListSubheader disableSticky>SUBMIT AN APPLICATION</ListSubheader>}
 		>
-			<ListItem button component={Link} to="/application/submit/intrenship" className={classes.nested}>
-				<ListItemText primary="Intrenship" />
+			<ListItem disabled={!canSubmit} button component={Link} to="/application/submit/internship" className={classes.nested}>
+				<ListItemText primary="Internship" />
 			</ListItem>
-			<ListItem button component={Link} to="/application/submit/confrence" className={classes.nested}>
+			<ListItem disabled={!canSubmit} button component={Link} to="/application/submit/confrence" className={classes.nested}>
 				<ListItemText primary="Confrence" />
 			</ListItem>
 			<Collapse in={openSubList.showMore} timeout="auto" unmountOnExit>
-				<ListItem button onClick={handleSubListClick('defense')}>
-					<ListItemIcon>
-						{openSubList.defense ? <ExpandLess /> : <ExpandMore />}
-					</ListItemIcon>
-					<ListItemText primary="Defense" />
-				</ListItem>
-				<Collapse in={openSubList.defense} timeout="auto" unmountOnExit>
-					<List component="div" disablePadding>
-						<ListItem button component={Link} to="/application/submit/phd-defense" className={classes.lev2Nested}>
-							<ListItemText primary="PhD" />
-						</ListItem>
-						<ListItem button component={Link} to="/application/submit/habilitation-defence" className={classes.lev2Nested}>
-							<ListItemText primary="Habilitation" />
-						</ListItem>
-					</List>
-				</Collapse>
-				<ListItem button component={Link} to="/application/submit/confirmation" className={classes.nested}>
+				<ListItem disabled={!canSubmit} button component={Link} to="/application/submit/confirmation" className={classes.nested}>
 					<ListItemText primary="Confirmation" />
 				</ListItem>
-				<ListItem button component={Link} to="/application/submit/promotion" className={classes.nested}>
+				<ListItem disabled={!canSubmit} button component={Link} to="/application/submit/promotion" className={classes.nested}>
 					<ListItemText primary="Promotion" />
 				</ListItem>
 				<ListItem button onClick={handleSubListClick('thesis')}>
@@ -69,18 +53,34 @@ const FacultyMemberApplicationSubmissionSection = () => {
 				</ListItem>
 				<Collapse in={openSubList.thesis} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItem button component={Link} to="/application/submit/thesis/title-change" className={classes.lev2Nested}>
+						<ListItem disabled={!canSubmit} button component={Link} to="/application/submit/thesis-title-change" className={classes.lev2Nested}>
 							<ListItemText primary="Title Change" />
 						</ListItem>
-						<ListItem button component={Link} to="/application/submit/thesis/add-co-supervisor" className={classes.lev2Nested}>
+						<ListItem disabled={!canSubmit} button component={Link} to="/application/submit/add-thesis-co-supervisor" className={classes.lev2Nested}>
 							<ListItemText primary="Add Co-Supervisor" />
 						</ListItem>
 					</List>
 				</Collapse>
-				<ListItem button component={Link} to="/application/submit/research-submission" className={classes.nested}>
+				<ListItem button onClick={handleSubListClick('defense')}>
+					<ListItemIcon>
+						{openSubList.defense ? <ExpandLess /> : <ExpandMore />}
+					</ListItemIcon>
+					<ListItemText primary="Defense" />
+				</ListItem>
+				<Collapse in={openSubList.defense} timeout="auto" unmountOnExit>
+					<List component="div" disablePadding>
+						<ListItem disabled button component={Link} to="/application/submit/phd-defense" className={classes.lev2Nested}>
+							<ListItemText primary="PhD" />
+						</ListItem>
+						<ListItem disabled button component={Link} to="/application/submit/habilitation-defence" className={classes.lev2Nested}>
+							<ListItemText primary="Habilitation" />
+						</ListItem>
+					</List>
+				</Collapse>
+				<ListItem disabled button component={Link} to="/application/submit/research-submission" className={classes.nested}>
 					<ListItemText primary="Research Sumition" />
 				</ListItem>
-				<ListItem button component={Link} to="/application/submit/course-handout" className={classes.nested}>
+				<ListItem disabled button component={Link} to="/application/submit/course-handout" className={classes.nested}>
 					<ListItemText primary="Course Handout" />
 				</ListItem>
 			</Collapse>
@@ -88,7 +88,7 @@ const FacultyMemberApplicationSubmissionSection = () => {
 				<ListItemIcon>
 					{openSubList.showMore ? <ExpandLess /> : <ExpandMore />}
 				</ListItemIcon>
-				<ListItemText primary="Show more" primaryTypographyProps={{ color: 'textSecondary' }} />
+				<ListItemText primary={openSubList.showMore ? 'Show less' : 'Show more'} primaryTypographyProps={{ color: 'textSecondary' }} />
 			</ListItem>
 		</List>
 	);

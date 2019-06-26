@@ -1,4 +1,4 @@
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink, Observable } from 'apollo-link';
@@ -9,9 +9,14 @@ import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { GET_CACHED_TOKEN } from './components/User/queries';
+import introspectionQueryResultData from './fragmentTypes.json';
 import resolvers from './graphql/resolvers';
 
-const cache = new InMemoryCache();
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+	introspectionQueryResultData
+});
+
+const cache = new InMemoryCache({ fragmentMatcher });
 
 const request = async (operation) => {
 	const { token } = cache.readQuery({ query: GET_CACHED_TOKEN });
