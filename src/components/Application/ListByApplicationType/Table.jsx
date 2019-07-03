@@ -1,11 +1,12 @@
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { orderBy } from 'lodash';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	root: {
+		marginTop: 12,
 		width: 1000,
 		margin: 'auto',
 		overflowX: 'auto',
@@ -38,7 +39,7 @@ const ApplicationListByApplicationTypeTable = ({ data, currentUserID }) => {
 			}))
 		);
 	}, [currentUserID, data]);
-	
+
 	const [sortBy, setSortBy] = useState('');
 	const [sortDirection, setSortDirection] = useState('desc');
 	const directionToggle = sortDirection => (
@@ -102,8 +103,17 @@ const ApplicationListByApplicationTypeTable = ({ data, currentUserID }) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{applications.map(application => (
-						<TableRow key={application._id} hover component={Link} to={`/application/${application._id}`} className={classes.tableRow}>
+					{applications.map((application, index) => (
+						<TableRow 
+							key={application._id} 
+							hover 
+							component={Link} 
+							to={{
+								pathname: `/applications/${application._id}`,
+								state: { application: data[index] }
+							}}
+							className={classes.tableRow}
+						>
 							<TableCell>{application.name}</TableCell>
 							<TableCell>{application.accepts}</TableCell>
 							<TableCell>{application.refuses}</TableCell>

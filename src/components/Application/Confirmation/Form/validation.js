@@ -1,4 +1,4 @@
-import { string, object, date } from 'yup';
+import { date, object, string } from 'yup';
 
 export default object().shape({
 	rank: string().required(),

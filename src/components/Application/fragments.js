@@ -12,6 +12,9 @@ export const applicationDetails = gql`
 		}
 		accepts
 		refuses
+		session {
+			_id
+		}
 	}
 `;
 
@@ -75,4 +78,37 @@ export const addThesisCoSupervisorApplicationDetails = gql`
 		coSupervisor
 		cause
 	}
+`;
+
+export const fullApplicationDetails = gql`
+	fragment FullApplicationDetails on Application {
+		__typename
+		_id
+		...ApplicationDetails
+		...on ConfrenceApplication {
+			...ConfrenceApplicationDetails
+		}
+		...on InternshipApplication {
+			...InternshipApplicationDetails
+		}
+		...on ConfirmationApplication {
+			...ConfirmationApplicationDetails
+		}
+		...on PromotionApplication {
+			...PromotionApplicationDetails
+		}
+		...on AddThesisCoSupervisorApplication {
+			...AddThesisCoSupervisorApplicationDetails
+		}
+		...on ThesisTitleChangeApplication {
+			...ThesisTitleChangeApplicationDetails
+		}
+	}
+	${applicationDetails}
+	${confrenceApplicationDetails}
+	${internshipApplicationDetails}
+	${confirmationApplicationDetails}
+	${promotionApplicationDetails}
+	${thesisTitleChangeApplicationDetails}
+	${addThesisCoSupervisorApplicationDetails}
 `;

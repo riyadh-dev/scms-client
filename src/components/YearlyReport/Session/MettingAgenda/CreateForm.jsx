@@ -6,33 +6,31 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import React, { useState } from 'react';
-import { Mutation, graphql } from 'react-apollo';
-import useStyles from '../../formStyles';
-import SubmitFormButton from '../../SubmitFromButton';
-import { useDynamicArrayForm, validate } from '../../utils';
-import { SET_METTING_AGENDA } from '../mutations';
-import { GET_ACTIVE_SC_SESSION } from '../queries';
+import { Mutation } from 'react-apollo';
+import useStyles from '../../../formStyles';
+import SubmitFormButton from '../../../SubmitFromButton';
+import { useDynamicArrayForm, validate } from '../../../utils';
+import { SET_METTING_AGENDA } from '../../mutations';
 import validationSchema from './validation';
 
-const MettingAgendaForm = ({ data, history }) => {
+const MettingAgendaForm = ({ activeSession, history }) => {
 	const classes = useStyles();
-	const mettingAgenda = useDynamicArrayForm('', 3, 10);
+	const mettingAgenda = useDynamicArrayForm('', 2, 10);
 	const [errors, setErrors] = useState({});
 
 	const handleSubmit = (setMettingAgenda, client) => async event => {
 		event.preventDefault();
-		if (!data.activeSCSession) return;
-		const SCSessionID = data.activeSCSession._id;
+		if (!activeSession) return;
+		const sessionID = activeSession._id;
 		setErrors({});
 		const validationRes = validate(validationSchema, mettingAgenda);
 		if (validationRes.errors) {
 			setErrors(validationRes.errors);
 			return;
 		}
-		const input = { mettingAgenda: validationRes.validateInput.array, SCSessionID };
-		const { data: { setMettingAgenda: activeSCSession } } = await setMettingAgenda({ variables: { input } });
-		client.writeData({ data: { activeSCSession } });
-		history.push('/announcement');
+		const input = { mettingAgenda: validationRes.validateInput.array, sessionID };
+		await setMettingAgenda({ variables: { input } });
+		history.push('/');
 	};
 
 	return (
@@ -89,4 +87,4 @@ const MettingAgendaForm = ({ data, history }) => {
 	);
 };
 
-export default graphql(GET_ACTIVE_SC_SESSION)(MettingAgendaForm);
+export default MettingAgendaForm;

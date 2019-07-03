@@ -36,7 +36,7 @@ const AddThesisCoSupervisorApplicationReSubmitForm = ({ history, match }) => {
 			setErrors(data.reSubmitAddThesisCoSupervisorApplication.errors);
 			return;
 		}
-		history.push('/application/' + applicationID);
+		history.push('/applications/' + applicationID);
 	};
 
 	return (
@@ -49,7 +49,7 @@ const AddThesisCoSupervisorApplicationReSubmitForm = ({ history, match }) => {
 						</Typography>
 						<form onSubmit={handleSubmit(reSubmitAddThesisCoSupervisorApplication)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
-								<AddThesisCoSupervisorApplicationFormFields errors={errors} values={values} handleChange={handleChange} />
+								<AddThesisCoSupervisorApplicationFormFields loading={loading} errors={errors} values={values} handleChange={handleChange} />
 								<Grid item xs={12}>
 									<SubmitFormButton loading={loading} error={error} />
 								</Grid>

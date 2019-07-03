@@ -36,8 +36,7 @@ const ConfrenceApplicationReSubmitForm = ({ history, match }) => {
 			setErrors(data.reSubmitConfrenceApplication.errors);
 			return;
 		}
-		const str = '/application/'+applicationID;
-		history.push(str);
+		history.push('/applications/' + applicationID);
 	};
 
 	return (
@@ -50,7 +49,7 @@ const ConfrenceApplicationReSubmitForm = ({ history, match }) => {
 						</Typography>
 						<form onSubmit={handleSubmit(reSubmitConfrenceApplication)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
-								<ConfrenceApplicationFormFields errors={errors} values={values} handleChange={handleChange} />
+								<ConfrenceApplicationFormFields loading={loading} errors={errors} values={values} handleChange={handleChange} />
 								<Grid item xs={12}>
 									<SubmitFormButton loading={loading} error={error} />
 								</Grid>

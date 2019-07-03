@@ -36,7 +36,7 @@ const ThesisTitleChangeApplicationReSubmitForm = ({ history, match }) => {
 			setErrors(data.reSubmitThesisTitleChangeApplication.errors);
 			return;
 		}
-		history.push('/application/'+applicationID);
+		history.push('/applications/' + applicationID);
 	};
 
 	return (
@@ -45,11 +45,11 @@ const ThesisTitleChangeApplicationReSubmitForm = ({ history, match }) => {
 				<main className={classes.root}>
 					<Paper className={classes.paper}>
 						<Typography align="center" variant="h6" className={classes.title}>
-							Add Thesis Co-Supervisor Application
+							Thesis Title Change Application
 						</Typography>
 						<form onSubmit={handleSubmit(reSubmitThesisTitleChangeApplication)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
-								<ThesisTitleChangeApplicationFormFields errors={errors} values={values} handleChange={handleChange} />
+								<ThesisTitleChangeApplicationFormFields loading={loading} errors={errors} values={values} handleChange={handleChange} />
 								<Grid item xs={12}>
 									<SubmitFormButton loading={loading} error={error} />
 								</Grid>

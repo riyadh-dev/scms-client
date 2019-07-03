@@ -4,17 +4,17 @@ import ProtectedRoute from '../ProtectedRoute';
 
 const AnnouncementAddForm = lazy(() => import('./Form/Add'));
 const AnnouncementEditForm = lazy(() => import('./Form/Edit'));
-const AnnouncementList = lazy(() => import('./List'));
+const AnnouncementDetails = lazy(() => import('./Details'));
+const MettingAgendaForm = lazy(() => import('../YearlyReport/Session/MettingAgenda/CreateForm'));
 
-const MettingAgendaForm = lazy(() => import('../SCSession/MettingAgenda/CreateForm'));
-const UserRoutes = () => (
+const  AnnouncementRoutes = () => (
 	<Switch>
-		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcement/edit/:announcementID" component={AnnouncementEditForm} />
-		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcement/add" component={AnnouncementAddForm} />
-		<ProtectedRoute excat path="/announcement" component={AnnouncementList} />
-		<ProtectedRoute excat path="/set-metting-agenda" component={MettingAgendaForm} />
+		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/add" component={AnnouncementAddForm} />
+		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/set-metting-agenda" component={MettingAgendaForm} />
+		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/:announcementID/edit" component={AnnouncementEditForm} />
+		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/:announcementID" component={AnnouncementDetails} />
 	</Switch>
 );
 
 
-export default UserRoutes;
+export default  AnnouncementRoutes;

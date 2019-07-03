@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StatisticsPieChart from './PieChart';
 
 const StatisticsDetails = ({ location }) => {
@@ -67,16 +67,16 @@ const StatisticsDetails = ({ location }) => {
 	return (
 		<Grid container spacing={3} style={{ paddingLeft: 24, paddingRight: 24 }}>
 			<Grid item xs={12} md={6}>
-				<StatisticsPieChart data={genderStats} title="Gender" colors={['#7986cb', '#f06292']}/>
+				<StatisticsPieChart chartData={genderStats} title="Gender" colors={['#7986cb', '#f06292']}/>
 			</ Grid>
 			<Grid item xs={12} md={6}>
-				<StatisticsPieChart data={acceptanceStats} title="Acceptance"/>
+				<StatisticsPieChart chartData={acceptanceStats} title="Acceptance"/>
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<StatisticsPieChart data={department} title="Departments"/>
+				<StatisticsPieChart chartData={department} title="Departments"/>
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<StatisticsPieChart data={major} title="Majors"/>
+				<StatisticsPieChart chartData={major} title="Majors"/>
 			</Grid>
 		</Grid>
 

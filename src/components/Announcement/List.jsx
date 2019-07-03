@@ -17,8 +17,8 @@ function AnnouncementList({ currentUser }) {
 						if (loading) return <LoadingTrigger />;
 						if (error) return null;
 						return data.announcements.map(announcement => (
-							<Grid item xs={12} sm={6} key={announcement._id}>
-								<AnnouncementDetails details={announcement} isPresident={isPresident} />
+							<Grid item xs={12} md={6} key={announcement._id}>
+								<AnnouncementDetails announcement={announcement} isPresident={isPresident} />
 							</Grid>
 						));
 

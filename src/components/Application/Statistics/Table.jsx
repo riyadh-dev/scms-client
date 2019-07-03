@@ -1,9 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { orderBy } from 'lodash';
-import React, { useState, useEffect } from 'react';
+import { orderBy, startCase } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { startCase } from 'lodash';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -30,7 +29,7 @@ const StatisticsTable = ({ data, currentUserID }) => {
 		refused: 0,
 		male: 0,
 		female: 0,
-		applicaionType: 'Total'
+		applicationType: 'Total'
 	});
 
 	useEffect(() => {
@@ -69,7 +68,7 @@ const StatisticsTable = ({ data, currentUserID }) => {
 
 				male: value.male,
 				female: value.female,
-				applicaionType: startCase(key)
+				applicationType: startCase(key)
 			});
 
 			return stats;
@@ -86,7 +85,7 @@ const StatisticsTable = ({ data, currentUserID }) => {
 				male: 0,
 				female: 0,
 
-				applicaionType: 'Total'
+				applicationType: 'Total'
 			},
 			arr: []
 		});
@@ -116,9 +115,9 @@ const StatisticsTable = ({ data, currentUserID }) => {
 					<TableRow>
 						<TableCell>
 							<TableSortLabel
-								active={sortBy === 'applicaionType'}
+								active={sortBy === 'applicationType'}
 								direction={sortDirection}
-								onClick={handleSortBy('applicaionType')}
+								onClick={handleSortBy('applicationType')}
 							>Application Type</TableSortLabel>
 						</TableCell>
 						<TableCell>
@@ -147,24 +146,24 @@ const StatisticsTable = ({ data, currentUserID }) => {
 				<TableBody>
 					{applications.map((application, index) => (
 						<TableRow
-							key={application.applicaionType + index}
+							key={application.applicationType + index}
 							hover
 							component={Link}
 							to={{
-								pathname: '/statistics/details',
+								pathname: '/applications/statistics/charts',
 								state: { rawData: application }
 							}}
 							className={classes.tableRow}
 						>
-							<TableCell>{application.applicaionType.replace('Application', '')}</TableCell>
+							<TableCell>{application.applicationType.replace('Application', '')}</TableCell>
 							<TableCell>{application.applications}</TableCell>
 							<TableCell>{application.accepted}</TableCell>
 							<TableCell>{application.refused}</TableCell>
 
 						</TableRow>
 					))}
-					<TableRow key={total.applicaionType} className={classes.tableRow}>
-						<TableCell>{total.applicaionType}</TableCell>
+					<TableRow key={total.applicationType} className={classes.tableRow}>
+						<TableCell>{total.applicationType}</TableCell>
 						<TableCell>{total.applications}</TableCell>
 						<TableCell>{total.accepted}</TableCell>
 						<TableCell>{total.refused}</TableCell>

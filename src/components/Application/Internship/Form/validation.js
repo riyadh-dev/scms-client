@@ -1,4 +1,4 @@
-import { string, object } from 'yup';
+import { object, string } from 'yup';
 
 export default object().shape({
 	laboratoryName: string().required(),

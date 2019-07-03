@@ -35,7 +35,7 @@ const AddThesisCoSupervisorApplicationForm = ({ history }) => {
 			return;
 		}
 		const applicationID = data.submitAddThesisCoSupervisorApplication._id;
-		history.push('/application/' + applicationID);
+		history.push('/applications/' + applicationID);
 	};
 
 	return (
@@ -48,7 +48,7 @@ const AddThesisCoSupervisorApplicationForm = ({ history }) => {
 						</Typography>
 						<form onSubmit={handleSubmit(submitAddThesisCoSupervisorApplication)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
-								<AddThesisCoSupervisorApplicationFormFields errors={errors} values={values} handleChange={handleChange} />
+								<AddThesisCoSupervisorApplicationFormFields loading={loading} errors={errors} values={values} handleChange={handleChange} />
 								<Grid item xs={12}>
 									<SubmitFormButton loading={loading} error={error} />
 								</Grid>

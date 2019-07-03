@@ -1,49 +1,26 @@
 import gql from 'graphql-tag';
 
-export const GET_ACTIVE_SC_SESSION = gql`
-	query ActiveSCSession {
-		activeSCSession @client{
+export const GET_ACTIVE_SESSION = gql`
+	query ActiveSession {
+		activeSession @client{
 			_id
 			mettingDate
 			submissionsStartDate
 			submissionsEndDate
 			mettingAgenda
-			canSubmit
-			canSetAgenda
+			onSubmissionPeriod,
+			onReviewPeriod,
+			onMettingDate
 		}
 	}
 `;
 
-export const GET_SC_SESSIONS = gql`
-	query SCSessions {
-		SCSessions {
-			_id
-			submissionsStartDate
-			submissionsEndDate
-		}
-	}
-`;
-
-export const GET_SC_YEARLY_REPORTS = gql`
-	query SCYearlyReports {
-		SCYearlyReports {
+export const GET_YEARLY_REPORTS = gql`
+	query YearlyReports {
+		yearlyReports {
 			_id
 			year
-			SCSessions {
-				_id
-				submissionsStartDate
-				submissionsEndDate
-			}
-		}
-	}
-`;
-
-export const GET_SC_YEARLY_REPORTS_FOR_STATS = gql`
-	query SCYearlyReportsForStats {
-		SCYearlyReportsForStats {
-			_id
-			year
-			SCSessions {
+			sessions {
 				_id
 				submissionsStartDate
 				submissionsEndDate
@@ -53,8 +30,8 @@ export const GET_SC_YEARLY_REPORTS_FOR_STATS = gql`
 `;
 
 export const GET_YEARLY_STATS = gql`
-	query SCYearlyReportStatistics($input: String!) {
-		SCYearlyReportStatistics(year: $input) {
+	query YearlyReportStatistics($input: String!) {
+		yearlyReportStatistics(year: $input) {
 			_id
 			year
 			statistics {
@@ -154,44 +131,6 @@ export const GET_YEARLY_STATS = gql`
 					female
 					male
 				}
-			}
-		}
-	}
-`;
-
-export const GET_SESSION_STATS = gql`
-	query SCSessionsApplicationListByApplicationType($_id: ID!) {
-		SCSessionsApplicationListByApplicationType(_id: $_id) {
-			_id
-			statistics {
-				applications
-				accepted
-
-				addThesisCoSupervisorApplications
-				confirmationApplications
-				confrenceApplications
-				internshipApplications
-				promotionApplications
-				thesisTitleChangeApplications
-
-				acceptedAddThesisCoSupervisorApplications
-				acceptedConfirmationApplications
-				acceptedConfrenceApplications
-				acceptedInternshipApplications
-				acceptedPromotionApplications
-				acceptedThesisTitleChangeApplications
-
-				electronicsDepartment
-				fundamentalEducationDepartment
-				powerAndContorlDepartment
-
-				controlMajor
-				electronicsMajor
-				powerMajor
-				telecommunicationMajor
-
-				female
-				male
 			}
 		}
 	}

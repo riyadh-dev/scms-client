@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import { Link, withRouter } from 'react-router-dom';
-import { TOGGLE_THEME } from '../mutations';
 import { LOG_OUT } from '../../User/mutations';
+import { TOGGLE_THEME } from '../mutations';
 
 const UserSection = ({ history }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,7 +22,7 @@ const UserSection = ({ history }) => {
 
 	const handleLogOut = logout => () => {
 		logout();
-		history.push('/announcement');
+		history.push('/');
 	};
 
 	return (
@@ -54,7 +54,7 @@ const UserSection = ({ history }) => {
 							{toggleTheme => (
 								<MenuItem onClick={toggleTheme}>
 									<ListItemIcon><Brightness4 /></ListItemIcon>
-									<ListItemText primary="Drak Theme" />
+									<ListItemText primary="Toggle Theme" />
 								</MenuItem>
 							)}
 						</Mutation>

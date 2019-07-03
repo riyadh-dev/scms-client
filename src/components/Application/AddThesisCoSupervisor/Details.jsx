@@ -1,10 +1,10 @@
-import { Grid, Divider } from '@material-ui/core';
+import { Divider, Grid } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useStyles from '../../detailsStyles';
-import dayjs from 'dayjs';
+
 
 const AddThesisCoSupervisorApplicationDetails = ({ details }) => {
 	const classes = useStyles();
@@ -46,7 +46,7 @@ const AddThesisCoSupervisorApplicationDetails = ({ details }) => {
 					<Typography className={classes.heading}>Submission Date</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{dayjs(details.submittedAt).format('MMM DD, YYYY')}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.submittedAt}</Typography>
 				</Grid>
 			</Grid>
 		</Paper>

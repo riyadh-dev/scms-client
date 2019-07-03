@@ -1,12 +1,5 @@
 import gql from 'graphql-tag';
-import {
-	confrenceApplicationDetails,
-	internshipApplicationDetails,
-	confirmationApplicationDetails,
-	promotionApplicationDetails,
-	addThesisCoSupervisorApplicationDetails,
-	thesisTitleChangeApplicationDetails
-} from './fragments';
+import { addThesisCoSupervisorApplicationDetails, confirmationApplicationDetails, confrenceApplicationDetails, internshipApplicationDetails, promotionApplicationDetails, thesisTitleChangeApplicationDetails } from './fragments';
 
 export const REVIEW_APPLICATION = gql`
 	mutation ReviewApplication(
@@ -71,7 +64,7 @@ export const RESUBMIT_CONFRENCE_APPLICATION = gql`
 
 export const SUBMIT_INTRENSHIP_APPLICATION = gql`
 	mutation SubmitInternshipApplication(
-		$input: InternshipApplicationInput!
+		$input: SubmitInternshipApplicationInput!
 	) {
 		submitInternshipApplication(
 				input: $input
@@ -83,9 +76,23 @@ export const SUBMIT_INTRENSHIP_APPLICATION = gql`
 	${internshipApplicationDetails}
 `;
 
+export const RESUBMIT_INTRENSHIP_APPLICATION = gql`
+	mutation ReSubmitInternshipApplication(
+		$input: ReSubmitInternshipApplicationInput!
+	) {
+		reSubmitInternshipApplication(
+				input: $input
+		) {
+			_id
+			...InternshipApplicationDetails
+		}
+	}
+	${internshipApplicationDetails}
+`;
+
 export const SUBMIT_CONFIRMATION_APPLICATION = gql`
 	mutation SubmitConfirmationApplication(
-		$input: ConfirmationApplicationInput!
+		$input: SubmitConfirmationApplicationInput!
 	) {
 		submitConfirmationApplication(
 				input: $input
@@ -97,11 +104,39 @@ export const SUBMIT_CONFIRMATION_APPLICATION = gql`
 	${confirmationApplicationDetails}
 `;
 
+export const RESUBMIT_CONFIRMATION_APPLICATION = gql`
+	mutation ReSubmitConfirmationApplication(
+		$input: ReSubmitConfirmationApplicationInput!
+	) {
+		reSubmitConfirmationApplication(
+				input: $input
+		) {
+			_id
+			...ConfirmationApplicationDetails
+		}
+	}
+	${confirmationApplicationDetails}
+`;
+
 export const SUBMIT_PROMOTION_APPLICATION = gql`
 	mutation SubmitPromotionApplication(
-		$input: PromotionApplicationInput!
+		$input: SubmitPromotionApplicationInput!
 	) {
 		submitPromotionApplication(
+				input: $input
+		) {
+			_id
+			...PromotionApplicationDetails
+		}
+	}
+	${promotionApplicationDetails}
+`;
+
+export const RESUBMIT_PROMOTION_APPLICATION = gql`
+	mutation ReSubmitPromotionApplication(
+		$input: ReSubmitPromotionApplicationInput!
+	) {
+		reSubmitPromotionApplication(
 				input: $input
 		) {
 			_id

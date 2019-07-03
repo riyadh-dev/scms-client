@@ -1,4 +1,4 @@
-import { Avatar, Grid, IconButton, InputAdornment, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import { Avatar, Grid, IconButton, InputAdornment, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import { Lock, Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { Mutation } from 'react-apollo';
@@ -119,6 +119,12 @@ const LoginForm = () => {
 								</Grid>
 								<Grid item xs={12}>
 									<SubmitFormButton loading={loading} error={error} label="log in" loadingLabel="loging in..." />
+								</Grid>
+								<Grid item xs/>
+								<Grid item>
+									<Link download href="http://localhost:4000/uploads/597de8c7-0001-4763-bc52-dfbfa600ec5b.pdf" variant="body2">
+										{'Don\'t have an account? Sign Up'}
+									</Link>
 								</Grid>
 							</Grid>
 						</form>

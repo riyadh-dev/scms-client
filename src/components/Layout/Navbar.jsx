@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import TopBar from './Topbar';
 import Sidebar from './Sidebar';
+import TopBar from './Topbar';
 
 const Navbar = ({ history }) => {
 	const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);

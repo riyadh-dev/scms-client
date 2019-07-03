@@ -1,10 +1,10 @@
 import { makeStyles } from '@material-ui/core';
 import React, { Fragment, Suspense, useEffect } from 'react';
+import { graphql } from 'react-apollo';
 import Navbar from './Layout/Navbar';
 import LoadingTrigger from './LoadingTrigger';
 import Routes from './Routes';
 import { CHECK_TOKEN_EXPIRED } from './User/mutations';
-import { graphql } from 'react-apollo';
 
 const useStyles = makeStyles(theme => ({
 	root: {

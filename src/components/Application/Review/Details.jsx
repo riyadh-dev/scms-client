@@ -1,4 +1,4 @@
-import { Grid, Divider, Paper, Typography } from '@material-ui/core';
+import { Divider, Grid, Paper, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import useStyles from '../../detailsStyles';

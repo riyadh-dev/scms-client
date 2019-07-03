@@ -1,10 +1,9 @@
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { orderBy } from 'lodash';
-import React, { useState, useEffect } from 'react';
+import { kebabCase, orderBy, startCase } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { kebabCase, startCase } from 'lodash';
-import dayjs from 'dayjs';
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -87,16 +86,19 @@ const ApplicationListByApplicantTable = ({ data, currentUserID }) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{applications.map(application => (
+					{applications.map((application, index) => (
 						<TableRow 
 							key={application._id} 
 							hover 
 							component={Link} 
-							to={`/application/${application._id}`} 
+							to={{
+								pathname: `/applications/${application._id}`,
+								state: { application: data[index] }
+							}} 
 							className={classes.tableRow}
 						>
 							<TableCell>{application.applicationType}</TableCell>
-							<TableCell>{dayjs(application.submittedAt).format('MMM DD, YYYY')}</TableCell>
+							<TableCell>{application.submittedAt}</TableCell>
 							<TableCell>{application.treated ? 'yes' : 'no'}</TableCell>
 							<TableCell>{application.treated ? (application.finalDecision ? 'accepted' : 'refused') : '_'}</TableCell>
 						</TableRow>

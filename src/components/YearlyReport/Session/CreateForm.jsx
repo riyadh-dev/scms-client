@@ -1,14 +1,14 @@
 import { Grid, Paper, TextField, Typography } from '@material-ui/core';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
-import useStyles from '../formStyles';
-import { useFormInputGroup, validate } from '../utils';
-import { ADD_SC_SESSION } from './mutations';
+import useStyles from '../../formStyles';
+import SubmitFormButton from '../../SubmitFromButton';
+import { useFormInputGroup, validate } from '../../utils';
+import { ADD_SESSION } from '../mutations';
 import validationSchema from './validation';
-import SubmitFormButton from '../SubmitFromButton';
-import dayjs from 'dayjs';
 
-const SCSessionForm = ({ history }) => {
+const SessionForm = ({ history }) => {
 	const classes = useStyles();
 	const {
 		values,
@@ -17,7 +17,7 @@ const SCSessionForm = ({ history }) => {
 
 	const [errors, setErrors] = useState({});
 
-	const handleSubmit = (addSCSession, client) => async event => {
+	const handleSubmit = (addSession, client) => async event => {
 		event.preventDefault();
 		setErrors({});
 		const validationRes = validate(validationSchema, values);
@@ -26,21 +26,21 @@ const SCSessionForm = ({ history }) => {
 			return;
 		}
 		const input = { ...validationRes.validateInput };
-		const { data: { addSCSession: activeSCSession } } = await addSCSession({ variables: { input } });
-		const data = { activeSCSession };
+		const { data: { addSession: activeSession } } = await addSession({ variables: { input } });
+		const data = { activeSession };
 		client.writeData({ data });
 		history.push('/announcement');
 	};
 
 	return (
-		<Mutation mutation={ADD_SC_SESSION}>
-			{(addSCSession, { loading, error, client }) => (
+		<Mutation mutation={ADD_SESSION}>
+			{(addSession, { loading, error, client }) => (
 				<main className={classes.root}>
 					<Paper className={classes.paper}>
 						<Typography align="center" variant="h6" className={classes.title}>
 							Open Submissions Application
 						</Typography>
-						<form onSubmit={handleSubmit(addSCSession, client)} noValidate autoComplete="off">
+						<form onSubmit={handleSubmit(addSession, client)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
 								<Grid item xs={12} sm={6}>
 									<TextField
@@ -108,4 +108,4 @@ const defaults = {
 	mettingDate: dayjs().add(2, 'month').add(1, 'week').format('YYYY-MM-DD')
 };
 
-export default SCSessionForm;
+export default SessionForm;

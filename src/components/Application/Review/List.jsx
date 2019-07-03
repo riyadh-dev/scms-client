@@ -2,14 +2,14 @@ import { Divider, Grid, Paper, Typography } from '@material-ui/core';
 import React, { Fragment } from 'react';
 import useStyles from '../../detailsStyles';
 
-const ReviewList = ({ reviews, refuses, accepts, finalDecision }) => {
+const ReviewList = ({ reviews, refuses, accepts, finalDecision, treated }) => {
 	const classes = useStyles();
 	return (
 		<Fragment>
 			<Grid container spacing={2} className={classes.container}>
 				<Grid item xs={12}>
-					<Typography align="center" gutterBottom variant="h6" color={finalDecision ? 'primary' : 'error'}>
-						Final Decision: {finalDecision ? 'Accepted' : 'Refused'}
+					<Typography align="center" gutterBottom variant="h6" color={!treated ? 'inherit' : (finalDecision ? 'primary' : 'error')}>
+						Final Decision: {!treated ? 'not treated yet' : (finalDecision ? 'Accepted' : 'Refused')}
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={4}>

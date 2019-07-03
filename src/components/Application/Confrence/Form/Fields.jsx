@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import React, { Fragment } from 'react';
 
-const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
+const ConfrenceApplicationFormFields = ({ handleChange, errors, values, loading }) => {
 
 	return (
 		<Fragment>
@@ -15,6 +15,7 @@ const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
 					helperText={errors.name}
 					value={values.name}
 					onChange={handleChange}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -28,6 +29,7 @@ const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
 					helperText={errors.website}
 					onChange={handleChange}
 					value={values.website}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -41,6 +43,7 @@ const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
 					helperText={errors.location}
 					value={values.location}
 					onChange={handleChange}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -56,6 +59,7 @@ const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
 					onChange={handleChange}
 					value={values.date}
 					InputLabelProps={{ shrink: true }}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -69,6 +73,7 @@ const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
 					helperText={errors.communicationPaperTitle}
 					onChange={handleChange}
 					value={values.communicationPaperTitle}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -82,6 +87,7 @@ const ConfrenceApplicationFormFields = ({ handleChange, errors, values }) => {
 					helperText={errors.communicationPaperAbstract}
 					onChange={handleChange}
 					value={values.communicationPaperAbstract}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 					multiline

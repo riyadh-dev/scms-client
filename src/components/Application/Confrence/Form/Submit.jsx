@@ -35,7 +35,7 @@ const ConfrenceApplicationForm = ({ history }) => {
 			return;
 		}
 		const applicationID = data.submitConfrenceApplication._id;
-		history.push('/application/'+applicationID);
+		history.push('/applications/' + applicationID);
 	};
 
 	return (
@@ -48,7 +48,7 @@ const ConfrenceApplicationForm = ({ history }) => {
 						</Typography>
 						<form onSubmit={handleSubmit(submitConfrenceApplication)} noValidate autoComplete="off">
 							<Grid container spacing={3}>
-								<ConfrenceApplicationFormFields errors={errors} values={values} handleChange={handleChange} />
+								<ConfrenceApplicationFormFields loading={loading} errors={errors} values={values} handleChange={handleChange} />
 								<Grid item xs={12}>
 									<SubmitFormButton loading={loading} error={error} />
 								</Grid>

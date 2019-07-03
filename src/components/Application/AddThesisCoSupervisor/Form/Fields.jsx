@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import React, { Fragment } from 'react';
 
-const AddThesisCoSupervisorApplicationFormFields = ({ handleChange, errors, values }) => {
+const AddThesisCoSupervisorApplicationFormFields = ({ handleChange, errors, values, loading }) => {
 
 	return (
 		<Fragment>
@@ -15,6 +15,7 @@ const AddThesisCoSupervisorApplicationFormFields = ({ handleChange, errors, valu
 					helperText={errors.firstPhDRegistrationYear}
 					onChange={handleChange}
 					value={values.firstPhDRegistrationYear}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -28,6 +29,7 @@ const AddThesisCoSupervisorApplicationFormFields = ({ handleChange, errors, valu
 					helperText={errors.supervisor}
 					onChange={handleChange}
 					value={values.supervisor}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -41,6 +43,7 @@ const AddThesisCoSupervisorApplicationFormFields = ({ handleChange, errors, valu
 					helperText={errors.coSupervisor}
 					onChange={handleChange}
 					value={values.coSupervisor}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -54,6 +57,7 @@ const AddThesisCoSupervisorApplicationFormFields = ({ handleChange, errors, valu
 					helperText={errors.cause}
 					onChange={handleChange}
 					value={values.cause}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 					multiline

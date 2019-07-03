@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import React, { Fragment } from 'react';
 
-const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values }) => {
+const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values, loading }) => {
 
 	return (
 		<Fragment>
@@ -15,6 +15,7 @@ const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values }
 					helperText={errors.firstPhDRegistrationYear}
 					onChange={handleChange}
 					value={values.firstPhDRegistrationYear}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -28,6 +29,7 @@ const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values }
 					helperText={errors.supervisor}
 					onChange={handleChange}
 					value={values.supervisor}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -41,6 +43,7 @@ const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values }
 					helperText={errors.currentTitle}
 					onChange={handleChange}
 					value={values.currentTitle}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -54,6 +57,7 @@ const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values }
 					helperText={errors.desiredTitle}
 					onChange={handleChange}
 					value={values.desiredTitle}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 				/>
@@ -67,6 +71,7 @@ const ThesisTitleChangeApplicationFormFields = ({ handleChange, errors, values }
 					helperText={errors.cause}
 					onChange={handleChange}
 					value={values.cause}
+					disabled={loading}
 					variant="outlined"
 					fullWidth
 					multiline

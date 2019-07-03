@@ -1,5 +1,5 @@
-import { date, object } from 'yup';
 import dayjs from 'dayjs';
+import { date, object } from 'yup';
 
 const now = dayjs().subtract(1, 'day');
 const after2month = dayjs(now).add(2, 'month');

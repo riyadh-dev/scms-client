@@ -1,5 +1,8 @@
+import { Button } from '@material-ui/core';
+import { kebabCase } from 'lodash';
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import LoadingTrigger from '../../LoadingTrigger';
 import UserDetails from '../../User/Details';
 import AddThesisCoSupervisorApplicationDetails from '../AddThesisCoSupervisor/Details';
@@ -13,13 +16,21 @@ import ReviewApplicationDetails from '../Review/Details';
 import ThesisTitleChangeApplicationDetails from '../ThesisTitleChange/Details';
 import ReviewApplicationForm from './Form';
 import ReviewList from './List';
-import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { kebabCase } from 'lodash';
-import { GET_ACTIVE_SC_SESSION } from '../../SCSession/queries';
-import dayjs from 'dayjs';
 
-const ApplicationReviewPage = ({ match, currentUser }) => {
+
+const ApplicationDetails = ({ type, details }) => {
+	switch (type) {
+	case 'AddThesisCoSupervisorApplication': return <AddThesisCoSupervisorApplicationDetails details={details} />;
+	case 'ConfirmationApplication': return <ConfirmationApplicationDetails details={details} />;
+	case 'ConfrenceApplication': return <ConfrenceApplicationDetails details={details} />;
+	case 'InternshipApplication': return <InternshipApplicationDetails details={details} />;
+	case 'PromotionApplication': return <PromotionApplicationDetails details={details} />;
+	case 'ThesisTitleChangeApplication': return <ThesisTitleChangeApplicationDetails details={details} />;
+	default: return null;
+	}
+};
+
+const ApplicationReviewPage = ({ match, currentUser, activeSession }) => {
 	return (
 		<Query query={GET_APPLICATION} variables={{ _id: match.params._id }}>
 			{({ data, loading, error }) => {
@@ -33,7 +44,7 @@ const ApplicationReviewPage = ({ match, currentUser }) => {
 					accepts,
 					refuses,
 					finalDecision,
-					...applicaion
+					...application
 				} = data.application;
 
 				const isReviewed = review => review.reviewer._id === currentUser._id;
@@ -42,6 +53,7 @@ const ApplicationReviewPage = ({ match, currentUser }) => {
 				const isSCMember = currentUser.roles.includes('SC_MEMBER');
 				const isApplicant = currentUser._id === applicant._id;
 				const applicationTypeURL = kebabCase(__typename.replace('Application', ''));
+				const canEdit = isApplicant && !activeSession ? false : (activeSession._id === application.session._id);
 				return (
 					<Fragment>
 						{!isApplicant && <UserDetails user={applicant} title="Applicant Info" />}
@@ -57,20 +69,15 @@ const ApplicationReviewPage = ({ match, currentUser }) => {
 								color="primary"
 								variant="contained"
 								component={Link}
-								to={'/application/user/' + applicant._id + '/list'}
+								to={'/applications/user/' + applicant._id}
 							>check past submissions</Button>
 						</div>}
-						{__typename === 'AddThesisCoSupervisorApplication' && <AddThesisCoSupervisorApplicationDetails details={applicaion} />}
-						{__typename === 'ConfirmationApplication' && <ConfirmationApplicationDetails details={applicaion} />}
-						{__typename === 'ConfrenceApplication' && <ConfrenceApplicationDetails details={applicaion} />}
-						{__typename === 'InternshipApplication' && <InternshipApplicationDetails details={applicaion} />}
-						{__typename === 'PromotionApplication' && <PromotionApplicationDetails details={applicaion} />}
-						{__typename === 'ThesisTitleChangeApplication' && <ThesisTitleChangeApplicationDetails details={applicaion} />}
-						{isApplicant && <div
+						<ApplicationDetails type={__typename} details={application} />
+						{canEdit && <div
 							style={{
 								width: 700,
 								marginBottom: 24,
-								paddingBottom: 24,
+								paddincgBottom: 24,
 								margin: 'auto'
 							}}
 						>
@@ -79,22 +86,13 @@ const ApplicationReviewPage = ({ match, currentUser }) => {
 								color="primary"
 								variant="contained"
 								component={Link}
-								to={'/application/re-submit/' + applicationTypeURL + '/' + applicaion._id}
+								to={'/applications/' + applicationTypeURL + '/' + application._id + '/re-submit'}
 							>edit</Button>
 						</div>}
-						{isSCMember && !isApplicant && <ReviewApplicationDetails reviews={{ refuses, accepts, finalDecision, currentUserReview }} />}
-						{!isApplicant && !applicaion.treated && <ReviewApplicationForm applicationID={applicaion._id} />}
-						{isPresident && <Query query={GET_ACTIVE_SC_SESSION}>
-							{({ data }) => {
-								if (!data.activeSCSession) return null;
-								const today = Date.now();
-								const mettingDate = data.activeSCSession.mettingDate;
-								const ismettingDate = dayjs(mettingDate).isSame(today, 'day');
-								if (!ismettingDate) return null;
-								return <FinalDecisionForm applicationID={applicaion._id} />;
-							}}
-						</Query>}
-						{isPresident && <ReviewList reviews={reviews} accepts={accepts} refuses={refuses} finalDecision={finalDecision} />}
+						{isSCMember && !isApplicant && <ReviewApplicationDetails reviews={{ refuses, accepts, finalDecision, currentUserReview, treated: application.treated }} />}
+						{!isApplicant && !application.treated && <ReviewApplicationForm applicationID={application._id} />}
+						{isPresident && activeSession && activeSession.onMettingDate && <FinalDecisionForm applicationID={application._id} />}
+						{isPresident && <ReviewList treated={application.treated} reviews={reviews} accepts={accepts} refuses={refuses} finalDecision={finalDecision} />}
 					</Fragment>
 				);
 			}}

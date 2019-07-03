@@ -1,8 +1,8 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import LoadingTrigger from '../../LoadingTrigger';
-import ApplicationListByApplicantTable from './Table';
 import { GET_APPLICATIONS_BY_APPLICANT } from '../queries';
+import ApplicationListByApplicantTable from './Table';
 
 const ApplicationsListByApplicant = ({ currentUser, match }) => {
 	const input = match.params._id ? match.params._id : currentUser._id;

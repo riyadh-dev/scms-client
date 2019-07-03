@@ -1,4 +1,4 @@
-import { object, boolean } from 'yup';
+import { boolean, object } from 'yup';
 
 export default object().shape({
 	finalDecision: boolean().required(),

@@ -1,10 +1,10 @@
-import { Grid, Divider, Button } from '@material-ui/core';
+import { Button, Divider, Grid } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useStyles from '../../detailsStyles';
-import dayjs from 'dayjs';
+
 
 const PromotionApplicationDetails = ({ details }) => {
 	const classes = useStyles();
@@ -32,14 +32,14 @@ const PromotionApplicationDetails = ({ details }) => {
 					<Typography className={classes.heading}>Recruitment Date</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{dayjs(details.recruitmentDate).format('MMM DD, YYYY')}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.recruitmentDate}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item xs={12} sm={6}>
 					<Typography className={classes.heading}>Confirmation Date</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Typography className={classes.secondaryHeading}>{dayjs(details.confirmationDate).format('MMM DD, YYYY')}</Typography>
+					<Typography className={classes.secondaryHeading}>{details.confirmationDate}</Typography>
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item xs={12} sm={6}>

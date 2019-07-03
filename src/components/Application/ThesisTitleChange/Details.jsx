@@ -1,4 +1,4 @@
-import { Grid, Divider } from '@material-ui/core';
+import { Divider, Grid } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ const ThesisTitleChangeApplicationDetails = ({ details }) => {
 	return (
 		<Paper className={classes.root}>
 			<Typography align="center" className={classes.title}>
-				Add Thesis Co-Supervisor Application
+				Thesis Title Change Application
 			</Typography>
 			<Grid container spacing={2}>
 				<Grid item xs={12} sm={6}>

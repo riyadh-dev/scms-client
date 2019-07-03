@@ -1,12 +1,11 @@
 import { Divider, Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemText, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import { Close, InsertChart, Assignment, Home, AddComment, EventNote, MeetingRoom } from '@material-ui/icons';
+import { AddComment, Assignment, Close, EventNote, Home, InsertChart, ListAlt, MeetingRoom } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { compose, graphql } from 'react-apollo';
 import { Link } from 'react-router-dom';
-import { GET_ACTIVE_SC_SESSION } from '../../SCSession/queries';
 import { GET_CURRENT_USER } from '../../User/queries';
-import ApplicationReviewSection from './ApplicationReview';
+import { GET_ACTIVE_SESSION } from '../../YearlyReport/queries';
 import FacultyMemberApplicationSubmissionSection from './ApplicationSubmission/FacultyMember';
 import PhDStudentApplicationSubmissionSection from './ApplicationSubmission/PhDStudent';
 
@@ -40,69 +39,64 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Sidebar = ({ SCSession: { activeSCSession }, user, isSidebarOpen, toggleSidebar }) => {
+const Sidebar = ({ session: { activeSession }, user, isSidebarOpen, toggleSidebar }) => {
 	const classes = useStyles();
 	const roles = user.currentUser.roles;
-	const canSubmit = activeSCSession ? activeSCSession.canSubmit : false;
-	const canSetAgenda = activeSCSession ? activeSCSession.canSetAgenda : false;	
+	const onSubmissionPeriod = activeSession ? activeSession.onSubmissionPeriod : false;
+	const onReviewPeriod = activeSession ? activeSession.onReviewPeriod : false;
+
 	const Common = (
 		<Fragment>
 			<List>
-				<ListItem button component={Link} to="/announcement" className={classes.nested}>
+				<ListItem button component={Link} to="/" className={classes.nested}>
 					<ListItemIcon><Home /></ListItemIcon>
 					<ListItemText primary="Home Page" />
 				</ListItem>
-				<ListItem button component={Link} to="/my-applications" className={classes.nested}>
+				<ListItem button component={Link} to="/applications/mine" className={classes.nested}>
 					<ListItemIcon><Assignment /></ListItemIcon>
 					<ListItemText primary="My Applications" />
 				</ListItem>
 				{roles.includes('SC_PRESIDENT') &&
-					<ListItem button component={Link} to="/announcement/add" className={classes.nested}>
+					<ListItem button component={Link} to="/announcements/add" className={classes.nested}>
 						<ListItemIcon><AddComment /></ListItemIcon>
 						<ListItemText primary="Add Announcement" />
 					</ListItem>
 				}
 				{roles.includes('SC_PRESIDENT') &&
-					<ListItem disabled={activeSCSession} button component={Link} to="/application/open-submissions" className={classes.nested}>
+					<ListItem disabled={Boolean(activeSession)} button component={Link} to="/applications/open-submissions" className={classes.nested}>
 						<ListItemIcon><MeetingRoom /></ListItemIcon>
 						<ListItemText primary="Open Submissions" />
 					</ListItem>
 				}
 				{roles.includes('SC_PRESIDENT') &&
-					<ListItem disabled={!canSetAgenda} button component={Link} to="/set-metting-agenda" className={classes.nested}>
+					<ListItem disabled={!onReviewPeriod} button component={Link} to="/announcements/set-metting-agenda" className={classes.nested}>
 						<ListItemIcon><EventNote /></ListItemIcon>
 						<ListItemText primary="Set Metting Agenda" />
 					</ListItem>
 				}
 				{roles.includes('SC_PRESIDENT') &&
-					<ListItem button component={Link} to="/statistics" className={classes.nested}>
+					<ListItem button component={Link} to="/applications/statistics" className={classes.nested}>
 						<ListItemIcon><InsertChart /></ListItemIcon>
 						<ListItemText primary="Statistics" />
 					</ListItem>
 				}
+				{roles.includes('SC_PRESIDENT') &&
+					<ListItem button component={Link} to="/applications" className={classes.nested}>
+						<ListItemIcon><ListAlt /></ListItemIcon>
+						<ListItemText primary="Submitted Applications" />
+					</ListItem>
+				}
 			</List>
 			<Divider />
-			{roles.includes('SC_PRESIDENT') &&
-				<Fragment>
-					<ApplicationReviewSection />
-					<Divider />
-				</Fragment>
-			}
-			{roles.includes('SC_MEMBER') &&
-				<Fragment>
-					<ApplicationReviewSection />
-					<Divider />
-				</Fragment>
-			}
 			{roles.includes('FACULTY_MEMBER') &&
 				<Fragment>
-					<FacultyMemberApplicationSubmissionSection canSubmit={canSubmit} />
+					<FacultyMemberApplicationSubmissionSection onSubmissionPeriod={onSubmissionPeriod} />
 					<Divider />
 				</Fragment>
 			}
 			{roles.includes('PHD_STUDENT') &&
 				<Fragment>
-					<PhDStudentApplicationSubmissionSection canSubmit={canSubmit} />
+					<PhDStudentApplicationSubmissionSection onSubmissionPeriod={onSubmissionPeriod} />
 					<Divider />
 				</Fragment>
 			}
@@ -155,5 +149,5 @@ Sidebar.propTypes = {
 
 export default compose(
 	graphql(GET_CURRENT_USER, { name: 'user' }),
-	graphql(GET_ACTIVE_SC_SESSION, { name: 'SCSession' }),
+	graphql(GET_ACTIVE_SESSION, { name: 'session' }),
 )(Sidebar);

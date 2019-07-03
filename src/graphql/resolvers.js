@@ -1,6 +1,6 @@
-import { GET_TOKEN, GET_TOKEN_EXPIRATION } from '../components/User/queries';
-import { GET_THEME } from '../components/Layout/queries';
 import gql from 'graphql-tag';
+import { GET_THEME } from '../components/Layout/queries';
+import { GET_TOKEN, GET_TOKEN_EXPIRATION } from '../components/User/queries';
 
 export default {
 	Mutation: {
@@ -24,31 +24,34 @@ export default {
 					variables: values
 				});
 
-				const { data: { activeSCSession } } = await client.query({
+				const { iat, exp, ...currentUser } = JSON.parse(atob(token.split('.')[1]));
+				currentUser.__typename = 'User';
+
+
+
+				const { data: { activeSession } } = await client.query({
 					query: gql`
-						query ActiveSCSession {
-							activeSCSession {
+						query ActiveSession {
+							activeSession {
 								_id
 								submissionsStartDate
 								submissionsEndDate
 								mettingDate
 								mettingAgenda
-								canSubmit
-								canSetAgenda
+								onSubmissionPeriod
+								onReviewPeriod
+								onMettingDate
 							}	
 						}
 					`
 				});
 
-				const { iat, exp, ...currentUser } = JSON.parse(atob(token.split('.')[1]));
-				currentUser.__typename = 'User';
-
 				const data = {
 					currentUser,
-					activeSCSession,
+					activeSession,
 					token: token,
 					tokenExpiration: exp,
-					authenticated: true
+					authenticated: true,
 				};
 
 				cache.writeData({ data });

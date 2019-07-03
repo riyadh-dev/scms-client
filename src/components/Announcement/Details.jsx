@@ -1,51 +1,63 @@
-import { Button, Paper } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
-import { makeStyles } from '@material-ui/core/styles';
+import { Button, Card, CardActions, CardContent } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { DELETE_ANNOUNCEMENT } from './mutations';
 import { GET_ANNOUNCEMENTS } from './queries';
 
+
 const useStyles = makeStyles(theme => ({
-	paper: {
-		padding: theme.spacing(3, 2),
-	},
-	buttonError: {
-		color: 'white',
-		backgroundColor: red[600],
-		'&:hover': {
-			backgroundColor: red[800],
+	root: {
+		padding: theme.spacing(2),
+		margin: 'auto',
+		marginBottom: theme.spacing(3),
+		width: 700,
+		[theme.breakpoints.down('xs')]: {
+			width: '96%',
 		},
-	},
+	}
 }));
 
-export default function AnnouncementDetails({ details, isPresident }) {
+const AnnouncementDetails = ({ location, currentUser, history }) => {
 	const classes = useStyles();
-	const { title, content } = details;
+	const { announcement } = location.state;
+	const isPresident = currentUser.roles.includes('SC_PRESIDENT');
+	const handleDelete = deleteAnnouncement => async () => {
+		await deleteAnnouncement({ variables: { input: announcement._id } });
+		history.push('/');
+	};
 	return (
-		<Paper className={classes.paper}>
-			<Typography variant="h5" component="h3">
-				{title}
-			</Typography>
-			<Typography paragraph>
-				{content}
-			</Typography>
-			{isPresident && <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-				<Button variant="outlined" color="primary" component={Link} to={'/announcement/edit/' + details._id}>
+		<Card className={classes.root}>
+			<CardContent>
+				<Typography omponent="h1" variant="h4">
+					{announcement.title}
+				</Typography>
+				<Typography variant="h6" color="textSecondary" gutterBottom>
+					{announcement.createdAt}
+				</Typography>
+				<Typography variant="subtitle1" paragraph>
+					{announcement.content}
+				</Typography>
+			</CardContent>
+			{isPresident && <CardActions>
+				<Button component={Link} to={'/announcements/' + announcement._id + '/edit'} color="primary">
 					Edit
 				</Button>
 				<Mutation mutation={DELETE_ANNOUNCEMENT} refetchQueries={() => [{ query: GET_ANNOUNCEMENTS }]}>
 					{deleteAnnouncement => (
-						<Button className={classes.buttonError}
-							onClick={() => deleteAnnouncement({ variables: { input: details._id } })}
+						<Button
+							color="primary"
+							onClick={handleDelete(deleteAnnouncement)}
 						>
 							Delete
 						</Button>
 					)}
 				</Mutation>
-			</div>}
-		</Paper>
+			</CardActions>}
+		</Card>
 	);
-}
+};
+
+export default AnnouncementDetails;
