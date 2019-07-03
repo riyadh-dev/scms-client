@@ -53,7 +53,7 @@ const ApplicationReviewPage = ({ match, currentUser, activeSession }) => {
 				const isSCMember = currentUser.roles.includes('SC_MEMBER');
 				const isApplicant = currentUser._id === applicant._id;
 				const applicationTypeURL = kebabCase(__typename.replace('Application', ''));
-				const canEdit = isApplicant && !activeSession ? false : (activeSession._id === application.session._id);
+				const canEdit = activeSession && isApplicant && (activeSession._id === application.session._id);
 				return (
 					<Fragment>
 						{!isApplicant && <UserDetails user={applicant} title="Applicant Info" />}
