@@ -29,7 +29,8 @@ const ApplicationListByApplicantTable = ({ data, currentUserID }) => {
 			data.map(app => ({
 				_id: app._id,
 				applicationType: startCase(app.__typename.replace('Application', '')),
-				submittedAt: (app.submittedAt),
+				submittedAt: new Date(app.submittedAt).getTime(),
+				submittedAtFormatted: app.submittedAt,
 				treated: app.treated,
 				finalDecision: app.finalDecision,
 				applicationTypeURL: kebabCase(app.__typename.replace('Application', ''))
