@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { kebabCase, orderBy, startCase } from 'lodash';
+import { orderBy, startCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -33,7 +33,6 @@ const ApplicationListByApplicantTable = ({ data, currentUserID }) => {
 				submittedAtFormatted: app.submittedAt,
 				treated: app.treated,
 				finalDecision: app.finalDecision,
-				applicationTypeURL: kebabCase(app.__typename.replace('Application', ''))
 			}))
 		);
 	}, [currentUserID, data]);
@@ -68,7 +67,7 @@ const ApplicationListByApplicantTable = ({ data, currentUserID }) => {
 								active={sortBy === 'submittedAt'}
 								direction={sortDirection}
 								onClick={handleSortBy('submittedAt')}
-							>Submission Date</TableSortLabel>
+							>Submitted At</TableSortLabel>
 						</TableCell>
 						<TableCell>
 							<TableSortLabel
@@ -99,7 +98,7 @@ const ApplicationListByApplicantTable = ({ data, currentUserID }) => {
 							className={classes.tableRow}
 						>
 							<TableCell>{application.applicationType}</TableCell>
-							<TableCell>{application.submittedAt}</TableCell>
+							<TableCell>{application.submittedAtFormatted}</TableCell>
 							<TableCell>{application.treated ? 'yes' : 'no'}</TableCell>
 							<TableCell>{application.treated ? (application.finalDecision ? 'accepted' : 'refused') : '_'}</TableCell>
 						</TableRow>
