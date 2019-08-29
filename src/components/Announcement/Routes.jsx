@@ -12,7 +12,7 @@ const  AnnouncementRoutes = () => (
 		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/add" component={AnnouncementAddForm} />
 		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/set-metting-agenda" component={MettingAgendaForm} />
 		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/:announcementID/edit" component={AnnouncementEditForm} />
-		<ProtectedRoute allowedRoles={['SC_PRESIDENT']} excat path="/announcements/:announcementID" component={AnnouncementDetails} />
+		<ProtectedRoute excat path="/announcements/:announcementID" component={AnnouncementDetails} />
 	</Switch>
 );
 
