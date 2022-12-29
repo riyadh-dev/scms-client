@@ -1,20 +1,32 @@
-import { Avatar, Grid, IconButton, InputAdornment, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import {
+	Avatar,
+	Button,
+	Grid,
+	IconButton,
+	InputAdornment,
+	Link,
+	makeStyles,
+	Paper,
+	TextField,
+	Typography,
+} from '@material-ui/core';
 import { Lock, Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { Mutation } from 'react-apollo';
 import SubmitFormButton from '../../SubmitFromButton';
 import { useFormInputGroup, validate } from '../../utils';
 import { LOG_IN } from '../mutations';
+import MockAccountsList from './MockAccountsList';
 import yupSchema from './validation';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		width: 400,
 		[theme.breakpoints.down('xs')]: {
 			width: '96%',
 		},
 		marginTop: theme.spacing(10),
-		margin: 'auto'
+		margin: 'auto',
 	},
 	title: {
 		marginBottom: theme.spacing(3),
@@ -29,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-	}
+	},
 }));
 
 const LoginForm = () => {
@@ -39,16 +51,17 @@ const LoginForm = () => {
 
 	const classes = useStyles();
 	const [showPassword, setShowPassword] = useState(false);
-	const handleClickShowPassword = () => setShowPassword(prev => !prev);
+	const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
-	const {
-		values,
-		handleChange,
-	} = useFormInputGroup(defaults);
+	const { values, handleChange } = useFormInputGroup(defaults);
 
 	const [errors, setErrors] = useState({});
 
-	const handleSubmit = login => async event => {
+	const [openMockAccountsList, setMockAccountsList] = useState(false);
+	const handleOpenOpenMockAccountsList = () => setMockAccountsList(true);
+	const handleCloseOpenMockAccountsList = () => setMockAccountsList(false);
+
+	const handleSubmit = (login) => async (event) => {
 		event.preventDefault();
 		setErrors({});
 		const validationRes = validate(yupSchema, values);
@@ -71,43 +84,43 @@ const LoginForm = () => {
 						<Avatar className={classes.avatar}>
 							<Lock />
 						</Avatar>
-						<Typography component="h1" variant="h6" className={classes.title}>
+						<Typography component='h1' variant='h6' className={classes.title}>
 							Login To Continue
 						</Typography>
-						<form onSubmit={handleSubmit(login)} noValidate autoComplete="off">
+						<form onSubmit={handleSubmit(login)} noValidate autoComplete='off'>
 							<Grid container spacing={3}>
 								<Grid item xs={12}>
 									<TextField
-										id="email"
-										name="email"
-										label="Email"
+										id='email'
+										name='email'
+										label='Email'
 										error={Boolean(errors.email)}
 										helperText={errors.email}
 										onChange={handleChange}
 										value={values.email}
 										disabled={loading}
-										variant="outlined"
+										variant='outlined'
 										fullWidth
 									/>
 								</Grid>
 								<Grid item xs={12}>
 									<TextField
 										type={showPassword ? 'text' : 'password'}
-										id="password"
-										name="password"
-										label="Password"
+										id='password'
+										name='password'
+										label='Password'
 										error={Boolean(errors.password)}
 										helperText={errors.password}
 										onChange={handleChange}
 										value={values.password}
 										disabled={loading}
-										variant="outlined"
+										variant='outlined'
 										fullWidth
 										InputProps={{
 											endAdornment: (
-												<InputAdornment position="end">
+												<InputAdornment position='end'>
 													<IconButton
-														aria-label="Toggle password visibility"
+														aria-label='Toggle password visibility'
 														onClick={handleClickShowPassword}
 													>
 														{showPassword ? <Visibility /> : <VisibilityOff />}
@@ -118,17 +131,41 @@ const LoginForm = () => {
 									/>
 								</Grid>
 								<Grid item xs={12}>
-									<SubmitFormButton loading={loading} error={error} label="log in" loadingLabel="loging in..." />
+									<SubmitFormButton
+										loading={loading}
+										error={error}
+										label='log in'
+										loadingLabel='logging in...'
+									/>
 								</Grid>
-								<Grid item xs/>
+								<Grid item xs={12}>
+									<Button
+										variant='contained'
+										color='default'
+										onClick={handleOpenOpenMockAccountsList}
+										fullWidth
+									>
+										Mock Accounts
+									</Button>
+								</Grid>
+								<Grid item xs />
 								<Grid item>
-									<Link download href="http://localhost:4000/uploads/597de8c7-0001-4763-bc52-dfbfa600ec5b.pdf" variant="body2">
-										{'Don\'t have an account? Sign Up'}
+									<Link
+										download
+										href='http://localhost:4000/uploads/597de8c7-0001-4763-bc52-dfbfa600ec5b.pdf'
+										variant='body2'
+									>
+										Don't have an account? Sign Up
 									</Link>
 								</Grid>
 							</Grid>
 						</form>
 					</Paper>
+					<MockAccountsList
+						handleCloseOpenMockAccountsList={handleCloseOpenMockAccountsList}
+						openMockAccountsList={openMockAccountsList}
+						login={login}
+					/>
 				</div>
 			)}
 		</Mutation>
@@ -137,7 +174,7 @@ const LoginForm = () => {
 
 const defaults = {
 	email: '',
-	password: ''
+	password: '',
 };
 
 export default LoginForm;
