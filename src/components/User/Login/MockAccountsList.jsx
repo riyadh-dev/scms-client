@@ -60,14 +60,15 @@ const MockAccountsList = ({
 									<ListItem
 										button
 										key={account._id}
-										onClick={() =>
+										onClick={() => {
 											login({
 												variables: {
 													email: account.email,
 													password: 'password',
 												},
-											})
-										}
+											});
+											handleCloseOpenMockAccountsList();
+										}}
 									>
 										<ListItemAvatar>
 											<Avatar>{account.firstName[0]}</Avatar>
